@@ -1,0 +1,67 @@
+/* Paleta de Colores de los Mockups S&E (Tonos Café Elegante / Minimalista) */
+:root {
+    --primary-se: #4A3525;
+    --primary-hover: #362619;
+    --bg-light: #FBF9F6;
+    --accent-alert: #F2EFE9;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-light) !important;
+}
+
+.brand-text, .text-title {
+    color: var(--primary-se);
+}
+
+.btn-primary-custom {
+    background-color: var(--primary-se) !important;
+    border-color: var(--primary-se) !important;
+    color: #fff !important;
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--primary-hover) !important;
+    border-color: var(--primary-hover) !important;
+}
+
+.bg-light-custom {
+    background-color: #F5EFEB;
+}
+
+.bg-danger-light {
+    background-color: #FDF3F2;
+}
+
+.text-danger-custom {
+    color: #B42318;
+}
+
+.icon-square {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 1.25rem;
+}
+
+/* Estilos de la barra lateral de AdminLTE */
+.app-sidebar {
+    background-color: #2B1E14 !important;
+}
+
+.nav-link.active {
+    background-color: var(--primary-se) !important;
+    color: #fff !important;
+}
+
+.fs-7 {
+    font-size: 0.85rem;
+}
+
+.card {
+    border-radius: 12px;
+}

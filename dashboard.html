@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & E - Panel de Control</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="estilos.css">
+</head>
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+    <div class="app-wrapper">
+
+        <nav class="app-header navbar navbar-expand bg-body shadow-sm">
+            <div class="container-fluid">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button"><i
+                                class="fas fa-bars"></i></a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item me-3">
+                        <span id="userBadge" class="badge bg-secondary py-2 px-3 fw-normal">Rol: ...</span>
+                    </li>
+                    <li class="nav-item dropdown user-menu">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
+                            <span class="d-none d-md-inline fw-bold text-dark" id="sessionName">Usuario Activo</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
+                            <li class="user-footer text-center p-3">
+                                <button onclick="CerrarSesion()" class="btn btn-danger btn-flat w-100"><i
+                                        class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión</button>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <aside class="app-sidebar shadow" data-bs-theme="dark">
+            <div class="sidebar-brand text-center py-4">
+                <a href="#" class="brand-link border-0 text-decoration-none">
+                    <span class="brand-text fw-bold fs-3 block">S & E</span>
+                    <div class="text-muted fs-7">Gestión Administrativa</div>
+                </a>
+            </div>
+            <div class="sidebar-wrapper">
+                <nav class="mt-3">
+                    <ul class="nav text-uppercase nav-pills nav-sidebar flex-column" role="tablist">
+                        <li class="nav-item">
+                            <a href="#mod-inventario" class="nav-link active" data-bs-toggle="tab" role="tab">
+                                <i class="nav-icon fas fa-boxes-stacked me-2"></i>
+                                <p>Inventario</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#mod-ventas" class="nav-link" data-bs-toggle="tab" role="tab"
+                                onclick="RenderizarModuloVentas()">
+                                <i class="nav-icon fas fa-cash-register me-2"></i>
+                                <p>Ventas</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#mod-clientes" class="nav-link" data-bs-toggle="tab" role="tab"
+                                onclick="RenderizarModuloClientes()">
+                                <i class="nav-icon fas fa-users me-2"></i>
+                                <p>Clientes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#mod-compras" class="nav-link" data-bs-toggle="tab" role="tab"
+                                onclick="RenderizarModuloCompras()">
+                                <i class="nav-icon fas fa-truck-loading me-2"></i>
+                                <p>Compras</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#mod-reportes" class="nav-link" data-bs-toggle="tab" role="tab"
+                                onclick="GenerarReportesEstadisticos()">
+                                <i class="nav-icon fas fa-chart-pie me-2"></i>
+                                <p>Reportes</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="menuSeguridad">
+                            <a href="#mod-seguridad" class="nav-link" data-bs-toggle="tab" role="tab"
+                                onclick="RenderizarModuloSeguridad()">
+                                <i class="nav-icon fas fa-shield-halved me-2"></i>
+                                <p>Seguridad</p>
+                            </a>
+                        </li>
+                        <li class="nav-item" id="menuCliente">
+                            <a href="#mod-cliente" class="nav-link" data-bs-toggle="tab">
+                                <i class="nav-icon fas fa-user me-2"></i>
+                                <p>Cliente</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+        <main class="app-main pt-4">
+            <div class="container-fluid tab-content">
+
+                <div class="tab-pane fade show active" id="mod-inventario" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold m-0 text-title">Inventario de Productos</h2>
+                        <button class="btn btn-primary-custom btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#modalProducto" onclick="PrepararCrearProducto()">
+                            <i class="fas fa-plus me-2"></i> Registrar Nuevo Mueble
+                        </button>
+                    </div>
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <span class="input-group-text bg-white border-end-0"><i
+                                        class="fas fa-search text-muted"></i></span>
+                                <input type="text" id="searchInven" class="form-control border-start-0 ps-0"
+                                    placeholder="Buscar mueble..." onkeyup="FiltrarInventario()">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <select id="filterCategory" class="form-select" onchange="FiltrarInventario()">
+                                <option value="">Todas las Categorías</option>
+                                <option value="Sofás">Sofás</option>
+                                <option value="Comedores">Comedores</option>
+                                <option value="Camas">Camas</option>
+                                <option value="Oficina">Oficina</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-uppercase fs-7 text-muted">
+                                    <tr>
+                                        <th class="ps-4">ID</th>
+                                        <th>Nombre del Mueble</th>
+                                        <th>Categoría</th>
+                                        <th>Stock (Cantidad)</th>
+                                        <th>Precio Unitario</th>
+                                        <th>Estado</th>
+                                        <th class="text-end pe-4">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaInventario"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="mod-ventas" role="tabpanel">
+                    <h2 class="fw-bold mb-4 text-title">Terminal de Ventas Físicas y Virtuales</h2>
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card p-4 border-0 shadow-sm mb-4">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-th me-2 text-muted"></i>Catálogo de Productos
+                                    Disponibles</h5>
+                                <div id="catalogoVentas" class="row row-cols-1 row-cols-md-2 g-3"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card p-4 border-0 shadow-sm mb-3">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="fw-bold m-0"><i class="fas fa-user-tag me-2 text-muted"></i>Información
+                                        del Cliente</h5>
+                                    <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                        data-bs-target="#modalCliente" onclick="PrepararCrearCliente()"><i
+                                            class="fas fa-plus"></i></button>
+                                </div>
+                                <select id="selectCliente" class="form-select mb-3"></select>
+                            </div>
+                            <div class="card p-4 border-0 shadow-sm">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-receipt me-2 text-muted"></i>Detalle de Venta
+                                </h5>
+                                <div class="table-responsive mb-3" style="max-height: 200px;">
+                                    <table class="table align-middle">
+                                        <tbody id="carritoVenta"></tbody>
+                                    </table>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>Subtotal</span> <strong id="lblSubtotal">S/. 0.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span>IGV (18%)</span> <strong id="lblIgv">S/. 0.00</strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-4 fs-5 border-top pt-2">
+                                    <span class="fw-bold text-dark">Total General</span> <strong id="lblTotal"
+                                        class="text-primary-custom">S/. 0.00</strong>
+                                </div>
+                                <h6 class="fw-bold mb-2">Método de Pago</h6>
+                                <div class="btn-group w-100 mb-4" role="group">
+                                    <input type="radio" class="btn-check" name="metodoPago" id="pago1" value="Efectivo"
+                                        checked>
+                                    <label class="btn btn-outline-secondary" for="pago1"><i
+                                            class="fas fa-money-bill-wave d-block mb-1"></i> Efectivo</label>
+                                    <input type="radio" class="btn-check" name="metodoPago" id="pago2" value="Tarjeta">
+                                    <label class="btn btn-outline-secondary" for="pago2"><i
+                                            class="fas fa-credit-card d-block mb-1"></i> Tarjeta</label>
+                                    <input type="radio" class="btn-check" name="metodoPago" id="pago3"
+                                        value="Transferencia">
+                                    <label class="btn btn-outline-secondary" for="pago3"><i
+                                            class="fas fa-building-columns d-block mb-1"></i> Transf.</label>
+                                </div>
+                                <button onclick="ProcesarVenta()"
+                                    class="btn btn-primary-custom w-100 py-2 fw-bold text-uppercase">
+                                    <i class="fas fa-check-circle me-2"></i> Confirmar Venta y Generar Comprobante
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="mod-clientes" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold m-0 text-title">Directorio de Clientes</h2>
+                        <button class="btn btn-primary-custom btn-lg" data-bs-toggle="modal"
+                            data-bs-target="#modalCliente" onclick="PrepararCrearCliente()">
+                            <i class="fas fa-user-plus me-2"></i> Registrar Nuevo Cliente
+                        </button>
+                    </div>
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light text-uppercase fs-7 text-muted">
+                                    <tr>
+                                        <th class="ps-4">Documento (RUC/DNI)</th>
+                                        <th>Nombre / Razón Social</th>
+                                        <th>Teléfono</th>
+                                        <th>Correo Electrónico</th>
+                                        <th>Dirección</th>
+                                        <th class="text-end pe-4">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tablaClientes"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="mod-compras" role="tabpanel">
+                    <h2 class="fw-bold mb-1 text-title">Gestión de Compras</h2>
+                    <p class="text-muted mb-4">Control centralizado de abastecimiento y relación con proveedores</p>
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card p-4 border-0 shadow-sm">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-address-book text-muted me-2"></i>Directorio
+                                    de Proveedores</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-hover align-middle">
+                                        <thead class="table-light text-uppercase fs-7">
+                                            <tr>
+                                                <th>Proveedor</th>
+                                                <th>Categoría</th>
+                                                <th>Contacto</th>
+                                                <th>Calificación</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaProveedores"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card p-4 border-0 shadow-sm border-start border-primary-custom border-4">
+                                <h5 class="fw-bold mb-1"><i class="fas fa-cart-plus text-muted me-2"></i>Nueva Orden
+                                </h5>
+                                <p class="text-muted small mb-3">Generar pedido de reabastecimiento</p>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Proveedor Destino</label>
+                                    <select id="selectProveedor" class="form-select"></select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-semibold">Mueble / Insumo</label>
+                                    <select id="selectProdCompra" class="form-select"></select>
+                                </div>
+                                <div class="row g-2 mb-4">
+                                    <div class="col-6">
+                                        <label class="form-label fw-semibold">Cantidad</label>
+                                        <input type="number" id="numCantCompra" class="form-control" value="5" min="1">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label fw-semibold">Costo Unitario (S/.)</label>
+                                        <input type="number" id="numCostoCompra" class="form-control" value="800"
+                                            min="1">
+                                    </div>
+                                </div>
+                                <button onclick="ProcesarCompra()"
+                                    class="btn btn-primary-custom w-100 py-2 fw-bold text-uppercase">
+                                    <i class="fas fa-paper-plane me-2"></i> Emitir Orden de Compra
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="mod-reportes" role="tabpanel">
+                    <h2 class="fw-bold mb-1 text-title">Panel de Reportes Administrativos</h2>
+                    <p class="text-muted mb-4">Análisis detallado de rendimiento comercial y niveles de inventario</p>
+                    <div class="row g-4 mb-4">
+                        <div class="col-md-4">
+                            <div class="card p-4 border-0 shadow-sm text-center">
+                                <div class="fs-7 text-uppercase text-muted fw-bold mb-2">Total Ventas Realizadas</div>
+                                <h1 class="fw-bold text-primary-custom m-0" id="repTotalVentas">S/. 0.00</h1>
+                                <small class="text-success fw-semibold"><i class="fas fa-arrow-trend-up"></i> Dinámico
+                                    en tiempo real</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-4 border-0 shadow-sm text-center">
+                                <div class="fs-7 text-uppercase text-muted fw-bold mb-2">Productos Stock Bajo</div>
+                                <h1 class="fw-bold text-danger m-0" id="repStockBajo">0 SKU</h1>
+                                <small class="text-danger fw-semibold"><i class="fas fa-triangle-exclamation"></i>
+                                    Requieren atención</small>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card p-4 border-0 shadow-sm text-center">
+                                <div class="fs-7 text-uppercase text-muted fw-bold mb-2">Clientes en Base de Datos</div>
+                                <h1 class="fw-bold text-dark m-0" id="repTotalClientes">0</h1>
+                                <small class="text-muted">Entidades registradas</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="mod-seguridad" role="tabpanel">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold m-0 text-title">Gestión de Seguridad y Roles</h2>
+                        <button class="btn btn-danger btn-lg" data-bs-toggle="modal" data-bs-target="#modalUsuario"
+                            onclick="PrepararCrearUsuario()">
+                            <i class="fas fa-user-shield me-2"></i> Registrar Nuevo Colaborador
+                        </button>
+                    </div>
+
+                    <div class="row g-4">
+                        <div class="col-lg-7">
+                            <div class="card p-4 border-0 shadow-sm">
+                                <h5 class="fw-bold mb-3"><i class="fas fa-users text-muted me-2"></i>Lista de Usuarios
+                                    del Sistema</h5>
+                                <div class="table-responsive">
+                                    <table class="table align-middle">
+                                        <thead class="table-light fs-7 text-uppercase">
+                                            <tr>
+                                                <th>Username</th>
+                                                <th>Nombre Colaborador</th>
+                                                <th>Rol Asignado</th>
+                                                <th>Estado</th>
+                                                <th class="text-end">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tablaUsuarios"></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="card p-4 border-0 shadow-sm mb-3 bg-light">
+                                <h5 class="fw-bold mb-2"><i class="fas fa-toggle-on text-muted me-2"></i>Matriz de
+                                    Permisos por Rol</h5>
+                                <p class="text-muted small">Visualización y alcance de los privilegios por jerarquía del
+                                    sistema.</p>
+                                <div class="mb-3">
+                                    <select id="selectRolPermiso" class="form-select" onchange="SimularPermisosRol()">
+                                        <option value="Administrador">Administrador</option>
+                                        <option value="Vendedor">Vendedor / Facturador</option>
+                                        <option value="Almacenero">Almacenero / Logística</option>
+                                    </select>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input check-permiso" type="checkbox" id="permStock" checked
+                                        disabled>
+                                    <label class="form-check-label small" for="permStock">Visualizar y alterar stock
+                                        detallado</label>
+                                </div>
+                                <div class="form-check form-switch mb-2">
+                                    <input class="form-check-input check-permiso" type="checkbox" id="permVentas"
+                                        checked disabled>
+                                    <label class="form-check-label small" for="permVentas">Crear nuevos pedidos y
+                                        procesar cobros</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input check-permiso" type="checkbox" id="permPrecios"
+                                        checked disabled>
+                                    <label class="form-check-label small" for="permPrecios">Modificar configuraciones
+                                        críticas de Seguridad e Inventarios</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="mod-cliente" role="tabpanel">
+
+                    <h2 class="fw-bold mb-4">Mi Panel de Cliente</h2>
+
+                    <div class="card p-3 mb-4">
+                        <h5>Mi Perfil</h5>
+                        <p><strong>Nombre:</strong> <span id="cliPerfilNombre"></span></p>
+                        <p><strong>Usuario:</strong> <span id="cliPerfilUser"></span></p>
+                        <p><strong>ID:</strong> <span id="cliPerfilID"></span></p>
+                    </div>
+
+                    <div class="card p-3">
+                        <h5>Mis Compras</h5>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Factura</th>
+                                    <th>Fecha</th>
+                                    <th>Productos</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaMisComprasCliente"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+
+        <div class="modal fade" id="modalProducto" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fw-bold m-0" id="modalProductoTitulo">Registrar Producto</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="prodIndex">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre del Mueble</label>
+                            <input type="text" id="prodNombre" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Categoría</label>
+                            <select id="prodCategoria" class="form-select">
+                                <option value="Sofás">Sofás</option>
+                                <option value="Comedores">Comedores</option>
+                                <option value="Camas">Camas</option>
+                                <option value="Oficina">Oficina</option>
+                            </select>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label fw-semibold">Stock Inicial</label>
+                                <input type="number" id="prodStock" class="form-control" min="0" required>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-semibold">Precio (S/.)</label>
+                                <input type="number" id="prodPrecio" class="form-control" min="0" step="0.01" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Descripción</label>
+                            <textarea id="prodDescripcion" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="GuardarProducto()"
+                            class="btn btn-primary-custom fw-bold">Guardar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalCliente" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fw-bold m-0" id="modalClienteTitulo">Registrar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="clienteIndex">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Documento de Identidad (DNI / RUC)</label>
+                            <input type="text" id="cliDocumento" class="form-control" required
+                                placeholder="Ej. 20123456789">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre Completo / Razón Social</label>
+                            <input type="text" id="cliNombre" class="form-control" required
+                                placeholder="Ej. Mueblería Central S.A.C.">
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-6">
+                                <label class="form-label fw-semibold">Teléfono</label>
+                                <input type="text" id="cliTelefono" class="form-control">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label fw-semibold">Correo Electrónico</label>
+                                <input type="email" id="cliCorreo" class="form-control">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Dirección Fiscal / Entrega</label>
+                            <input type="text" id="cliDireccion" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="GuardarCliente()" class="btn btn-primary-custom fw-bold">Guardar
+                            Cliente</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modalUsuario" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="fw-bold m-0" id="modalUsuarioTitulo">Gestionar Acceso / Rol</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" id="usrIndex">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre del Empleado</label>
+                            <input type="text" id="usrNombreReal" class="form-control" required
+                                placeholder="Ej. Carlos Mendoza">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Nombre de Usuario (Login)</label>
+                            <input type="text" id="usrUsername" class="form-control" required
+                                placeholder="Ej. cmendoza">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Contraseña del Sistema</label>
+                            <input type="password" id="usrPassword" class="form-control"
+                                placeholder="Ingresar nueva contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Asignar Rol Corporativo</label>
+                            <select id="usrRol" class="form-select">
+                                <option value="Administrador">Administrador (Acceso Total)</option>
+                                <option value="Vendedor">Vendedor (Módulo de Ventas y Clientes)</option>
+                                <option value="Almacenero">Almacenero (Solo Inventario y Compras)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" onclick="GuardarUsuario()"
+                            class="btn btn-danger fw-bold text-white">Guardar Configuración</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="app-footer text-center py-3 text-muted bg-white border-top">
+            <div class="float-end d-none d-sm-inline">Distribuidora S&E</div>
+            <strong>Ingeniería de Sistemas - Año 2026</strong>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta2/dist/js/adminlte.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="scripts.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            VerificarSesion();
+            InicializarBaseDatos();
+            RenderizarInventario();
+        });
+    </script>
+</body>
+
+</html>

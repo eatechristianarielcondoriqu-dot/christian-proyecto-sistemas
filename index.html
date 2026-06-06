@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S & E - Catálogo Digital y Gestión Administrativa</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(26, 54, 93, 0.85), rgba(26, 54, 93, 0.85)), url('https://images.unsplash.com/photo-1524758631624-e2822e304c36?ixlib=rb-4.0.3') no-repeat center center/cover;
+            color: white;
+            padding: 80px 0;
+        }
+
+        .mueble-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 3px solid #0d6efd !important;
+        }
+
+        .mueble-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .credenciales-box {
+            background-color: #f8f9fa;
+            border-left: 4px solid #0d6efd;
+            font-size: 0.85rem;
+        }
+
+        .brand-text-nav {
+            color: #0d6efd;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-white navbar-light sticky-top border-bottom bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <span class="brand-text-nav"><i class="fas fa-cubes me-2"></i>S & E</span>
+                <small class="text-muted fs-6 fw-normal d-none d-sm-inline"> | Gestión Comercial</small>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link active fw-semibold" href="#inicio">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#nosotros">Nosotros</a></li>
+                    <li class="nav-item"><a class="nav-link fw-semibold" href="#catalogo">Catálogo de Muebles</a></li>
+                    <li class="nav-item ms-lg-3 mt-2 mt-lg-0">
+                        <button class="btn btn-primary shadow-sm" data-bs-toggle="modal" data-bs-target="#authModal"
+                            onclick="switchTab('login')">
+                            <i class="fas fa-sign-in-alt me-2"></i> Acceder al Sistema
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero-section text-center shadow-sm">
+        <div class="container">
+            <h1 class="display-4 fw-bold mb-2">Distribuidora "S & E"</h1>
+            <p class="lead mb-4 text-white-50">Sincronización en tiempo real entre nuestra tienda física y plataforma
+                virtual para evitar discrepancias de stock.</p>
+            <a href="#catalogo" class="btn btn-light btn-lg fw-bold text-primary px-4 shadow">
+                <i class="fas fa-store me-2"></i>Explorar Catálogo Virtual
+            </a>
+        </div>
+    </header>
+
+    <section id="nosotros" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold text-dark">Sobre la Distribuidora "S & E"</h2>
+                <p class="text-muted">Ingeniería de Sistemas - Gestión Administrativa</p>
+                <div class="mx-auto bg-primary" style="height: 3px; width: 60px;"></div>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card card-outline card-primary h-100 p-4 text-center shadow-sm bg-white">
+                        <div class="text-primary fs-1 mb-3"><i class="fa-solid fa-layer-group"></i></div>
+                        <h5 class="fw-bold">Optimización Estratégica</h5>
+                        <p class="text-muted small mb-0">Centralizamos la información para acabar con el aislamiento
+                            técnico, reduciendo el sobrestock y las conciliaciones manuales con margen de error.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-outline card-success h-100 p-4 text-center shadow-sm bg-white">
+                        <div class="text-success fs-1 mb-3"><i class="fa-solid fa-bolt"></i></div>
+                        <h5 class="fw-bold">Atención Inmediata</h5>
+                        <p class="text-muted small mb-0">Diseñado para que los clientes visualicen datos reales de
+                            existencias y los vendedores operen transacciones rápidas en menos de tres pasos.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card card-outline card-warning h-100 p-4 text-center shadow-sm bg-white">
+                        <div class="text-warning fs-1 mb-3"><i class="fa-solid fa-shield-halved"></i></div>
+                        <h5 class="fw-bold">Seguridad por Roles</h5>
+                        <p class="text-muted small mb-0">Mapeo estricto basado en nuestra base de datos relacional para
+                            resguardar la información de transacciones mediante accesos controlados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="catalogo" class="py-5 bg-white border-top border-bottom">
+        <div class="container">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold text-dark mb-1">Catálogo de Productos Disponibles</h2>
+                    <p class="text-muted mb-0"><i class="fas fa-eye me-1"></i> Vista de simulación interactiva para el
+                        Cliente</p>
+                </div>
+                <div class="btn-group mt-3 mt-md-0 shadow-sm">
+                    <button class="btn btn-outline-secondary active">Todas las Categorías</button>
+                    <button class="btn btn-outline-secondary">Sala</button>
+                    <button class="btn btn-outline-secondary">Comedor</button>
+                    <button class="btn btn-outline-secondary">Dormitorio</button>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 mueble-card shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3"
+                            class="card-img-top" alt="Sofá" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-secondary mb-2 align-self-start">Sala</span>
+                            <h5 class="card-title fw-bold text-dark">Sofá Copenhague Velvet</h5>
+                            <p class="card-text text-muted small flex-grow-1">Elegante acabado en terciopelo con
+                                estructura de madera maciza reforzada.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="fs-5 fw-bold text-primary">Bs/. 2,450.00</span>
+                                <span class="badge bg-success">En Stock (12)</span>
+                            </div>
+                            <button class="btn btn-primary mt-3 w-100 fw-bold"
+                                onclick="simularCompra('Sofá Copenhague Velvet')">
+                                <i class="fa-solid fa-cart-shopping me-2"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 mueble-card shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?ixlib=rb-4.0.3"
+                            class="card-img-top" alt="Mesa" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-secondary mb-2 align-self-start">Comedor</span>
+                            <h5 class="card-title fw-bold text-dark">Mesa Comedor Roble Nórdico</h5>
+                            <p class="card-text text-muted small flex-grow-1">Diseño contemporáneo minimalista ideal
+                                para seis comensales.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="fs-5 fw-bold text-primary">Bs/. 3,120.00</span>
+                                <span class="badge bg-success">En Stock (8)</span>
+                            </div>
+                            <button class="btn btn-primary mt-3 w-100 fw-bold"
+                                onclick="simularCompra('Mesa Comedor Roble Nórdico')">
+                                <i class="fa-solid fa-cart-shopping me-2"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="card h-100 mueble-card shadow-sm">
+                        <img src="https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?ixlib=rb-4.0.3"
+                            class="card-img-top" alt="Cama" style="height: 200px; object-fit: cover;">
+                        <div class="card-body d-flex flex-column">
+                            <span class="badge bg-secondary mb-2 align-self-start">Dormitorio</span>
+                            <h5 class="card-title fw-bold text-dark">Cama King Size Majestic</h5>
+                            <p class="card-text text-muted small flex-grow-1">Cabecera acolchada con tapicería premium y
+                                base ergonómica.</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="fs-5 fw-bold text-primary">Bs/. 1,890.00</span>
+                                <span class="badge bg-warning text-dark">¡Últimas 3 unidades!</span>
+                            </div>
+                            <button class="btn btn-primary mt-3 w-100 fw-bold"
+                                onclick="simularCompra('Cama King Size Majestic')">
+                                <i class="fa-solid fa-cart-shopping me-2"></i> Comprar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-dark text-white py-4 border-top border-secondary">
+        <div class="container text-center">
+            <p class="mb-1 fw-bold">Distribuidora de Muebles "S & E" &copy; 2026</p>
+            <p class="text-muted small mb-0">Proyecto de Curso - Ingeniería de Sistemas - Universidad Franz Tamayo</p>
+        </div>
+    </footer>
+
+
+    <div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content card card-outline card-primary shadow-lg border-0">
+                <div class="modal-header border-0 bg-light p-0">
+                    <ul class="nav nav-tabs card-header-tabs w-100 m-0" id="authTabs" role="tablist">
+                        <li class="nav-item w-50" role="presentation">
+                            <button class="nav-link w-100 active text-center fw-bold py-3" id="tab-login"
+                                data-bs-toggle="tab" data-bs-target="#panel-login" type="button" role="tab">Iniciar
+                                Sesión</button>
+                        </li>
+                        <li class="nav-item w-50" role="presentation">
+                            <button class="nav-link w-100 text-center fw-bold py-3" id="tab-registro"
+                                data-bs-toggle="tab" data-bs-target="#panel-registro" type="button"
+                                role="tab">Registrarse</button>
+                        </li>
+                    </ul>
+                    <button type="button" class="btn-close position-absolute end-0 top-0 m-3" data-bs-dismiss="modal"
+                        aria-label="Close" style="z-index: 1050;"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <div class="tab-content">
+
+                        <div class="tab-pane fade show active" id="panel-login" role="tabpanel">
+                            <div class="text-center mb-4">
+                                <h3 class="fw-bold text-dark m-0">S & E</h3>
+                                <small class="text-muted">Ingresa tus credenciales del sistema</small>
+                            </div>
+
+                            <form id="formLogin" onsubmit="event.preventDefault(); manejarLogin();">
+                                <div class="mb-3">
+                                    <label for="loginUser" class="form-label fw-semibold text-dark">Usuario de
+                                        Acceso</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="loginUser" placeholder="Ej: admin"
+                                            required>
+                                        <div class="input-group-text"><span class="fas fa-user"></span></div>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <label for="loginPass" class="form-label fw-semibold text-dark">Contraseña</label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" id="loginPass"
+                                            placeholder="Contraseña de prueba" required>
+                                        <div class="input-group-text"><span class="fas fa-lock"></span></div>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100 fw-bold py-2 mb-2">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Entrar al Sistema
+                                </button>
+                            </form>
+
+                            <div class="p-3 rounded credenciales-box mt-4">
+                                <h6 class="fw-bold text-dark mb-2"><i class="fa-solid fa-key text-warning me-1"></i>
+                                    Credenciales de Prueba (Prototipo):</h6>
+                                <table class="table table-sm table-borderless mb-0 bg-transparent text-secondary"
+                                    style="font-size: 0.8rem;">
+                                    <thead>
+                                        <tr class="border-bottom text-dark">
+                                            <th>Rol Interno</th>
+                                            <th>Usuario</th>
+                                            <th>Contraseña</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Administrador</strong></td>
+                                            <td><code>admin</code></td>
+                                            <td><code>123</code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Vendedor</strong></td>
+                                            <td><code>vendedor</code></td>
+                                            <td><code>123</code></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane fade" id="panel-registro" role="tabpanel">
+                            <form id="formRegistro" onsubmit="event.preventDefault(); manejarRegistro();">
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label small fw-semibold text-dark">Nombre</label>
+                                        <input type="text" class="form-control" id="regNombre" required>
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small fw-semibold text-dark">Apellido</label>
+                                        <input type="text" class="form-control" id="regApellido" required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-dark">Nombre de Usuario</label>
+                                    <input type="text" class="form-control" id="regUsuario" placeholder="Crea tu alias"
+                                        required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-dark">Correo Electrónico</label>
+                                    <input type="email" class="form-control" id="regCorreo"
+                                        placeholder="correo@ejemplo.com" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-dark">Dirección Domiciliaria</label>
+                                    <input type="text" class="form-control" id="regDireccion" required>
+                                </div>
+                                <div class="mb-4">
+                                    <label class="form-label small fw-semibold text-dark">Contraseña Segura</label>
+                                    <input type="password" class="form-control" id="regPassword" required>
+                                </div>
+                                <button type="submit" class="btn btn-success w-100 fw-bold py-2">Registrar mi Cuenta de
+                                    Cliente</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="scripts.js"></script>
+
+    <script>
+        // 1. VENTANA EMERGENTE INFORMATIVA AUTOMÁTICA AL ABRIR LA WEB
+        window.addEventListener('DOMContentLoaded', () => {
+
+            // 🔥 MOSTRAR SOLO 1 VEZ EL MODAL DE CREDENCIALES
+            const yaVisto = localStorage.getItem("S_E_BIENVENIDA");
+
+            if (!yaVisto) {
+                Swal.fire({
+                    title: '<strong>Distribuidora S & E</strong>',
+                    icon: 'info',
+                    html: `
+                <p class="text-start">¡Bienvenido! Para facilitar las pruebas del sistema de control de ventas, usa los siguientes accesos rápidos:</p>
+                    <ul class="text-start fs-6">
+                        <li><strong>Admin:</strong> usuario: <code>admin</code> / clave: <code>123</code></li>
+                        <li><strong>Vendedor:</strong> usuario: <code>vendedor</code> / clave: <code>123</code></li>
+                    </ul>
+                    <div class="alert alert-warning py-2 mb-0 mt-3" style="font-size:0.85rem;">
+                        <i class="fa-solid fa-circle-exclamation me-1"></i> Estas credenciales también se muestran adentro del modal de acceso.
+                    </div>
+            `,
+                    confirmButtonText: 'Entendido'
+                });
+
+                localStorage.setItem("S_E_BIENVENIDA", "1");
+            }
+        });
+
+        // 🔥 LOGIN CORREGIDO (UN SOLO FLUJO)
+        function manejarLogin() {
+            LoginSistema(); // usa la función real del scripts.js
+        }
+
+        // Alternar pestañas del modal dinámicamente
+        function switchTab(mode) {
+            const tabElement = document.querySelector(mode === 'login' ? '#tab-login' : '#tab-registro');
+            if (tabElement) {
+                const tab = new bootstrap.Tab(tabElement);
+                tab.show();
+            }
+        }
+
+        // LÓGICA DE VALIDACIÓN DE INICIO DE SESIÓN CORREGIDA (admin, vendedor, cliente / 123)
+        function manejarLogin() {
+            const user = document.getElementById('loginUser').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+
+            if (pass === "123" && (user === "admin" || user === "vendedor")) {
+                Swal.fire({
+                    title: `¡Acceso Exitoso!`,
+                    text: `Redireccionando al panel de control como: [${user.toUpperCase()}]`,
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                }).then(() => {
+                    // Aquí el modal se cierra y puedes ejecutar tu backend original o redirección:
+                    const modalEl = document.getElementById('authModal');
+                    const modal = bootstrap.Modal.getInstance(modalEl);
+                    modal.hide();
+
+                    // Si tienes definida la función LoginSistema() en tu script.js, se ejecutará aquí:
+                    if (typeof LoginSistema === "function") {
+                        LoginSistema();
+                    }
+                });
+            } else {
+                Swal.fire('Error de Acceso', 'La contraseña debe ser "123" y el usuario debe ser admin o vendedor.', 'error');
+            }
+        }
+
+        function manejarRegistro() {
+            const user = document.getElementById('regUsuario').value;
+            Swal.fire({
+                title: '¡Registro Exitoso!',
+                text: `El cliente [${user}] se ha creado correctamente en la simulación de la base de datos.`,
+                icon: 'success',
+                confirmButtonColor: '#198754'
+            }).then(() => {
+                switchTab('login'); // Te regresa a la pestaña de login automáticamente
+            });
+        }
+
+        // compra simulada igual
+        function simularCompra(nombre) {
+            Swal.fire({
+                title: 'Acceso requerido',
+                text: `Para comprar "${nombre}" debes iniciar sesión`,
+                icon: 'info',
+                showCancelButton: true,
+                confirmButtonText: 'Ir al login'
+            }).then(r => {
+                if (r.isConfirmed) {
+                    const modal = new bootstrap.Modal(document.getElementById('authModal'));
+                    switchTab('login');
+                    modal.show();
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
